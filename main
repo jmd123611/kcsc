@@ -149,6 +149,7 @@ def updata_medstring(string,cluster):
     for i in range(len_cluster):
         opera, sim = backtrackingPath(medianString, cluster[i])
         ope.append(opera)
+    print("ope:",ope)
     len_ope=len(ope)
     all_ope = []
     for i in range(len_ope):
@@ -156,25 +157,21 @@ def updata_medstring(string,cluster):
             if ":" in ope[i][j] and ope[i][j] not in all_ope:
                 all_ope.append(ope[i][j])
 
-
+    print(all_ope)
     len_all_ope=len(all_ope)
 
     sta = [[0 for col in range(len(medianString) + 1)] for row in range(len_all_ope)]
     for i in range(len_all_ope):
         for j in range(len_ope):
-            symbol=0
-            for z in range(len(ope[j])):
-                pos = 0
-                if ":" not in ope[j][z]:
-                    symbol = 0
-                if all_ope[i] == ope[j][z] and symbol==0:
-                    for x in range(z):
-                        if 'ins' not in ope[j][x]:
-                            pos = pos + 1
-                    sta[i][pos] = sta[i][pos] + 1
-                    symbol=1
+            modify_ins_pos = 0
+            for m in range(len(ope[j])):
+                if ":" in ope[j][m]:
+                    if all_ope[i] == ope[j][m]:
+                        sta[i][m-modify_ins_pos] = sta[i][m-modify_ins_pos] + 1
+                    if 'ins' in ope[j][m]:
+                        modify_ins_pos = modify_ins_pos + 1
     most_frequent = 0
-
+    print("sta:",sta)
 
     for i in range(len_all_ope):
         for j in range(len(medianString) + 1):
